@@ -32,20 +32,25 @@
 //// This could be evaluated at compile time so it is
 //int value2 = DoubleIt(5);
 
-// Constinit demo code
-constexpr int DoubleIt(const int& number){
-    return number * 2;
+//// Constinit demo code
+//constexpr int DoubleIt(const int& number){
+//    return number * 2;
+//}
+//
+//constinit int value = DoubleIt(5);
+//static int value2 = value;
+
+// Is_const_evaluated() demo code
+constexpr int double_or_square_it(const int& number){
+    return std::is_constant_evaluated()? number * 2 : number * number;
 }
 
-constinit int value = DoubleIt(5);
-static int value2 = value;
+// It executes the call at compile time
+constinit int value = double_or_square_it(5);
 
 int main() {
-    std::cout << value << '\n';
-    std::cout << value2 << '\n';
-
-    value = DoubleIt(value);
-    value2 = DoubleIt(value2);
+    // It executes at run time
+    int value2 = double_or_square_it(5);
 
     std::cout << value << '\n';
     std::cout << value2 << '\n';
