@@ -23,20 +23,30 @@
 //constexpr int value = DoubleIt(5);
 //int value2 = DoubleIt(5);
 
+////Consteval function demo code
+//consteval int DoubleIt(const int& number){
+//    return number * 2;
+//}
+//// This is evaluated at compile time
+//constexpr int value = DoubleIt(5);
+//// This could be evaluated at compile time so it is
+//int value2 = DoubleIt(5);
 
-consteval int DoubleIt(const int& number){
+// Constinit demo code
+constexpr int DoubleIt(const int& number){
     return number * 2;
 }
-// This is evaluated at compile time
-constexpr int value = DoubleIt(5);
-// This could be evaluated at compile time so it is
-int value2 = DoubleIt(5);
+
+constinit int value = DoubleIt(5);
+static int value2 = value;
 
 int main() {
     std::cout << value << '\n';
     std::cout << value2 << '\n';
 
-    // This is a local variable => run time => ERROR!  DoubleIt() is a consteval function
-    int value3 = DoubleIt(value2);
-    std::cout << value3 << '\n';
+    value = DoubleIt(value);
+    value2 = DoubleIt(value2);
+
+    std::cout << value << '\n';
+    std::cout << value2 << '\n';
 }
